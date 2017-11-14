@@ -1,6 +1,5 @@
-
-
-public class DoublyLinkedCircularList {
+package main;
+public class DoublyLinkedCircularList<E> {
 	
 	private static class Node {
 		
@@ -16,7 +15,7 @@ public class DoublyLinkedCircularList {
 		
 	}
 	
-	public class DoublyLinkedCircularListIterator {
+	public class DoublyLinkedCircularListIterator<T> implements DoublyCircularListIterator<T> {
 		
 		private Node actual;
 		
@@ -24,23 +23,26 @@ public class DoublyLinkedCircularList {
 			actual = primer_nodo;
 		}
 		
-		public Object next() {
+		@SuppressWarnings("unchecked")
+		public T next() {
 			actual = actual.next;
-			return actual.data;
+			return (T) actual.data;
 		}
 		
-		public Object prev() {
+		@SuppressWarnings("unchecked")
+		public T prev() {
 			actual = actual.prev;
-			return actual.data;
+			return (T) actual.data;
 		}
 		
-		public Object actual() {
-			return actual.data;
+		@SuppressWarnings("unchecked")
+		public T actual() {
+			return (T) actual.data;
 		}
 		
 		public void remove() {
 			if(actual == null) return;
-			len --;
+			size --;
 			Node nodo_anterior = actual.prev;
 			Node nodo_siguiente = actual.next;
 			if(nodo_anterior == nodo_siguiente) {
@@ -53,22 +55,22 @@ public class DoublyLinkedCircularList {
 		}
 
 		public int size() {
-			return len;
+			return size;
 		}
 		
 	}
 
 	private Node primer_nodo;
-	private int len;
+	private int size;
 	
 	public DoublyLinkedCircularList(){
 		primer_nodo = null;
-		len = 0;
+		size = 0;
 	}
 	
-	public void add(Object element) {
+	public void add(E element) {
 		Node nuevo_nodo = new Node(element);
-		len ++;
+		size ++;
 		if(primer_nodo == null) {
 			primer_nodo = nuevo_nodo;
 			primer_nodo.next = primer_nodo;
@@ -82,8 +84,8 @@ public class DoublyLinkedCircularList {
 		nuevo_nodo.next = primer_nodo;
 	}
 	
-	public DoublyLinkedCircularListIterator iterator() {
-		return new DoublyLinkedCircularListIterator();
+	public DoublyCircularListIterator<E> iterator() {
+		return new DoublyLinkedCircularListIterator<E>();
 	}
 
 }
